@@ -154,7 +154,7 @@ const Dashboard = () => {
               <Sparkles size={18} className="text-white" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
-              ResumeAI
+              NextRole
             </span>
           </Link>
 

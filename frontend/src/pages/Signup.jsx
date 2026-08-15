@@ -81,7 +81,7 @@ const Signup = () => {
               <Sparkles className="h-5 w-5 text-white" />
             </div>
             <span className="font-extrabold text-2xl text-white tracking-tight">
-              Resume<span className="text-indigo-400">AI</span>
+              Next<span className="text-indigo-400">Role</span>
             </span>
           </Link>
           <h1 className="text-3xl font-extrabold text-white tracking-tight">

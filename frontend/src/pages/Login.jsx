@@ -62,10 +62,10 @@ const Login = () => {
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2.5 mb-4 group">
             <div className="h-10 w-10 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition-transform">
-              <Sparkles className="h-5 w-5 text-white" />
+            <Sparkles className="h-5 w-5 text-white" />
             </div>
             <span className="font-extrabold text-2xl text-white tracking-tight">
-              Resume<span className="text-indigo-400">AI</span>
+              Next<span className="text-indigo-400">Role</span>
             </span>
           </Link>
           <h1 className="text-3xl font-extrabold text-white tracking-tight">

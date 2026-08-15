@@ -1,10 +1,6 @@
-const {
-  extractTextFromPDF,
-} = require("../services/pdfService");
+const { extractTextFromPDF } = require("../services/pdfService");
 
-const {
-  analyzeResume,
-} = require("../services/aiService");
+const { analyzeResume } = require("../services/aiService");
 
 const ResumeAnalysis = require("../models/ResumeAnalysis");
 
@@ -26,25 +22,19 @@ const uploadResume = async (req, res) => {
       });
     }
 
-    const { text, pages } = await extractTextFromPDF(
-      req.file.buffer
-    );
+    const { text, pages } = await extractTextFromPDF(req.file.buffer);
 
     if (!text || text.trim().length < 50) {
       return res.status(400).json({
         success: false,
-        message:
-          "Could not extract enough text from this PDF.",
+        message: "Could not extract enough text from this PDF.",
       });
     }
 
     console.log("Resume text extracted.");
     console.log("Sending resume to Gemini...");
 
-    const analysis = await analyzeResume(
-      text,
-      jobDescription
-    );
+    const analysis = await analyzeResume(text, jobDescription);
 
     console.log("Gemini analysis completed.");
 
@@ -77,12 +67,25 @@ const uploadResume = async (req, res) => {
       recommendations: analysis.recommendations,
 
       summary: analysis.summary,
+
+      keywordCoverage: analysis.keywordCoverage,
+
+      sections: analysis.sections,
+
+      atsChecks: analysis.atsChecks,
+
+      experienceRelevance: analysis.experienceRelevance,
+
+      projectRelevance: analysis.projectRelevance,
+
+      educationRelevance: analysis.educationRelevance,
+
+      bulletPointIssues: analysis.bulletPointIssues,
+
+      improvedBullets: analysis.improvedBullets,
     });
 
-    console.log(
-      "Analysis saved:",
-      savedAnalysis._id.toString()
-    );
+    console.log("Analysis saved:", savedAnalysis._id.toString());
 
     res.status(201).json({
       success: true,
@@ -104,8 +107,7 @@ const uploadResume = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message:
-        error.message || "Failed to analyze resume",
+      message: error.message || "Failed to analyze resume",
     });
   }
 };
@@ -143,9 +145,7 @@ const getMyAnalyses = async (req, res) => {
     const analyses = await ResumeAnalysis.find({
       userId: req.user._id,
     })
-      .select(
-        "resumeName atsScore matchScore summary createdAt"
-      )
+      .select("resumeName atsScore matchScore summary createdAt")
       .sort({ createdAt: -1 });
 
     res.status(200).json({
