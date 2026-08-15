@@ -6,6 +6,8 @@ const {
   analyzeResume,
 } = require("../services/aiService");
 
+const ResumeAnalysis = require("../models/ResumeAnalysis");
+
 const uploadResume = async (req, res) => {
   try {
     if (!req.file) {
@@ -24,11 +26,6 @@ const uploadResume = async (req, res) => {
       });
     }
 
-    console.log(
-      "Processing resume:",
-      req.file.originalname
-    );
-
     const { text, pages } = await extractTextFromPDF(
       req.file.buffer
     );
@@ -37,24 +34,62 @@ const uploadResume = async (req, res) => {
       return res.status(400).json({
         success: false,
         message:
-          "Could not extract enough text from this PDF. Please upload a text-based PDF.",
+          "Could not extract enough text from this PDF.",
       });
     }
 
     console.log("Resume text extracted.");
-    console.log("Pages:", pages);
-    console.log("Sending resume to AI...");
+    console.log("Sending resume to Gemini...");
 
     const analysis = await analyzeResume(
       text,
       jobDescription
     );
 
-    console.log("AI analysis completed.");
+    console.log("Gemini analysis completed.");
 
-    res.status(200).json({
+    // Save analysis to MongoDB
+    const savedAnalysis = await ResumeAnalysis.create({
+      userId: req.user._id,
+
+      resumeName: req.file.originalname,
+
+      resumeText: text,
+
+      jobDescription,
+
+      atsScore: analysis.atsScore,
+
+      matchScore: analysis.matchScore,
+
+      skills: analysis.skills,
+
+      matchedKeywords: analysis.matchedKeywords,
+
+      missingKeywords: analysis.missingKeywords,
+
+      missingSkills: analysis.missingSkills,
+
+      strengths: analysis.strengths,
+
+      weaknesses: analysis.weaknesses,
+
+      recommendations: analysis.recommendations,
+
+      summary: analysis.summary,
+    });
+
+    console.log(
+      "Analysis saved:",
+      savedAnalysis._id.toString()
+    );
+
+    res.status(201).json({
       success: true,
+
       message: "Resume analyzed successfully",
+
+      analysisId: savedAnalysis._id,
 
       resume: {
         name: req.file.originalname,
@@ -75,6 +110,35 @@ const uploadResume = async (req, res) => {
   }
 };
 
+const getAnalysisById = async (req, res) => {
+  try {
+    const analysis = await ResumeAnalysis.findOne({
+      _id: req.params.id,
+      userId: req.user._id,
+    });
+
+    if (!analysis) {
+      return res.status(404).json({
+        success: false,
+        message: "Analysis not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      analysis,
+    });
+  } catch (error) {
+    console.error("Get analysis error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to get analysis",
+    });
+  }
+};
+
 module.exports = {
   uploadResume,
+  getAnalysisById,
 };

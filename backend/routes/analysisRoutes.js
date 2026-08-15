@@ -2,6 +2,7 @@ const express = require("express");
 
 const {
   uploadResume,
+  getAnalysisById,
 } = require("../controllers/analysisController");
 
 const protect = require("../middleware/authMiddleware");
@@ -15,6 +16,12 @@ router.post(
   protect,
   upload.single("resume"),
   uploadResume
+);
+
+router.get(
+  "/:id",
+  protect,
+  getAnalysisById
 );
 
 module.exports = router;
