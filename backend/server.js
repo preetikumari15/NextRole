@@ -1,17 +1,21 @@
+const dotenv = require("dotenv");
+
+// IMPORTANT: Load .env BEFORE importing routes/services
+dotenv.config();
+
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 
 const authRoutes = require("./routes/authRoutes");
 const analysisRoutes = require("./routes/analysisRoutes");
 
-dotenv.config();
-
 const app = express();
 
+// Connect MongoDB
 connectDB();
 
+// Middleware
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -21,9 +25,11 @@ app.use(
 
 app.use(express.json());
 
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/analysis", analysisRoutes);
 
+// Health check
 app.get("/", (req, res) => {
   res.json({
     success: true,
