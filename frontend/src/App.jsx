@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Analyze from "./pages/Analyze";
+import AnalysisResult from "./pages/AnalysisResult";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -31,6 +32,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Analyze />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/analysis/:id"
+          element={
+            <ProtectedRoute>
+              <AnalysisResult />
             </ProtectedRoute>
           }
         />

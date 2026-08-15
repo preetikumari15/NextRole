@@ -99,7 +99,8 @@ const Analyze = () => {
       });
 
       console.log("Analysis success:", response.data);
-      navigate("/dashboard");
+      navigate(`/analysis/${response.data.analysisId}`);
+      
     } catch (err) {
       setError(
         err.response?.data?.message || "Failed to analyze resume. Please try again."
