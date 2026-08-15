@@ -138,7 +138,62 @@ const getAnalysisById = async (req, res) => {
   }
 };
 
+const getMyAnalyses = async (req, res) => {
+  try {
+    const analyses = await ResumeAnalysis.find({
+      userId: req.user._id,
+    })
+      .select(
+        "resumeName atsScore matchScore summary createdAt"
+      )
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: analyses.length,
+      analyses,
+    });
+  } catch (error) {
+    console.error("Get analyses error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch analyses",
+    });
+  }
+};
+
+const deleteAnalysis = async (req, res) => {
+  try {
+    const analysis = await ResumeAnalysis.findOneAndDelete({
+      _id: req.params.id,
+      userId: req.user._id,
+    });
+
+    if (!analysis) {
+      return res.status(404).json({
+        success: false,
+        message: "Analysis not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Analysis deleted successfully",
+    });
+  } catch (error) {
+    console.error("Delete analysis error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete analysis",
+    });
+  }
+};
+
 module.exports = {
   uploadResume,
   getAnalysisById,
+  getMyAnalyses,
+  deleteAnalysis,
 };
