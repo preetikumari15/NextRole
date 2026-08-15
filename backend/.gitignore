@@ -1,0 +1,77 @@
+# ==========================================
+# Environment & Secrets (CRITICAL)
+# ==========================================
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+*.pem
+*.key
+
+# ==========================================
+# Dependencies
+# ==========================================
+node_modules/
+jspm_packages/
+package-lock.json.bak
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ==========================================
+# Logs & Debugging
+# ==========================================
+logs/
+*.log
+npm-debug.log*
+logs.txt
+
+# ==========================================
+# Temporary Uploads & File Processing
+# ==========================================
+# Keep the directory structure but ignore uploaded/processed files
+uploads/*
+!uploads/.gitkeep
+temp/
+tmp/
+
+# ==========================================
+# IDEs & Code Editors
+# ==========================================
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ==========================================
+# Operating System Files
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ==========================================
+# Testing & Coverage Reports
+# ==========================================
+coverage/
+.nyc_output/
+.jest/
+
+# ==========================================
+# Build / Distribution Outputs (if using TypeScript or Babel)
+# ==========================================
+dist/
+build/
+bin/
