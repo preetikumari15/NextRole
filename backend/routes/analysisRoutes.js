@@ -7,6 +7,10 @@ const {
   deleteAnalysis,
 } = require("../controllers/analysisController");
 
+const {
+  analysisLimiter,
+} = require("../middleware/rateLimitMiddleware");
+
 const protect = require("../middleware/authMiddleware");
 const upload = require("../middleware/uploadMiddleware");
 
@@ -16,6 +20,7 @@ const router = express.Router();
 router.post(
   "/upload",
   protect,
+  analysisLimiter,
   upload.single("resume"),
   uploadResume
 );

@@ -6,6 +6,7 @@ const resumeAnalysisSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
+      index: true,
     },
 
     resumeName: {
@@ -217,10 +218,7 @@ const resumeAnalysisSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-module.exports = mongoose.model(
-  "ResumeAnalysis",
-  resumeAnalysisSchema
-);
+module.exports = mongoose.model("ResumeAnalysis", resumeAnalysisSchema);
