@@ -47,6 +47,22 @@ app.use(
 
 app.use(express.json());
 
+// Root
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "ResumeAI API is running",
+  });
+});
+
+// Health
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "ResumeAI backend is healthy",
+  });
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/analysis", analysisRoutes);
@@ -68,14 +84,6 @@ app.use(
     });
   }
 );
-
-// Health check
-app.get("/health", (req, res) => {
-  res.json({
-    success: true,
-    message: "AI Resume Analyzer API is running",
-  });
-});
 
 const PORT = process.env.PORT || 4000;
 
