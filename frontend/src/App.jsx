@@ -8,6 +8,7 @@ import Analyze from "./pages/Analyze";
 import AnalysisResult from "./pages/AnalysisResult";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 
 function App() {
   return (
@@ -15,9 +16,23 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
 
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
 
-        <Route path="/signup" element={<Signup />} />
+        <Route
+          path="/signup"
+          element={
+            <PublicRoute>
+              <Signup />
+            </PublicRoute>
+          }
+        />
 
         <Route
           path="/dashboard"
@@ -27,6 +42,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/analyze"
           element={
@@ -35,6 +51,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/analysis/:id"
           element={
