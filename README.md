@@ -47,9 +47,25 @@ An AI-powered resume analysis platform built using the MERN stack and Google Gem
 
 - Google Gemini API
 
-## Architecture
+## 🏗️ Architecture
 
-React → Express → MongoDB
-
-                ↓
-            Gemini API
+```text
+                    User
+                     │
+                     ▼
+              React + Vite
+                 Vercel
+                     │
+                     │ HTTPS
+                     ▼
+             Node + Express
+                 Render
+                     │
+          ┌──────────┴──────────┐
+          │                     │
+          ▼                     ▼
+     MongoDB Atlas          Gemini API
+          │                     │
+          └──────────┬──────────┘
+                     ▼
+                AI Analysis
