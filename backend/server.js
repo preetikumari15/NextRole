@@ -20,15 +20,16 @@ connectDB();
 app.use(helmet());
 
 const allowedOrigins = [
-  process.env.FRONTEND_URL,
   "http://localhost:5173",
-  "http://localhost:3000",
   "http://localhost:4173",
+  "http://localhost:3000",
+  process.env.FRONTEND_URL,
 ].filter(Boolean);
 
 app.use(
   cors({
     origin: (origin, callback) => {
+      // Allow Postman/server-to-server requests
       if (!origin) {
         return callback(null, true);
       }
@@ -37,10 +38,13 @@ app.use(
         return callback(null, true);
       }
 
+      console.log("Blocked CORS origin:", origin);
+
       return callback(
         new Error("Not allowed by CORS")
       );
     },
+
     credentials: true,
   })
 );
